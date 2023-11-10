@@ -93,4 +93,6 @@ const styles = StyleSheet.create({
     textButton:{
         color: '#fff'
     }
-})
+});
+
+export default Register;

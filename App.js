@@ -12,21 +12,13 @@ export default function App() {
   return (
     <NavigationContainer style={styles.container}>
       <Stack.Navigator>
-        <Stack.Screen
-          name="Login"
-          component={Login}
-          options={{ headerShown: false }}
-        />
+        
         <Stack.Screen
           name="Registro"
           component={Register}
           options={{ headerShown: false }}
         />
-        <Stack.Screen
-          name="Menu"
-          component={Menu}
-          options={{ headerShown: false }}
-        />
+        
       </Stack.Navigator>
     </NavigationContainer>
   );
