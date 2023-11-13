@@ -1,4 +1,4 @@
-import react, { Component } from 'react';
+import React, { Component } from 'react';
 import { auth, db } from '../../firebase/config';
 import {TextInput, TouchableOpacity, View, Text, StyleSheet} from 'react-native';
 
@@ -32,7 +32,7 @@ class Login extends Component {
                     style={styles.input}
                     onChangeText={(text)=>this.setState({email: text})}
                     placeholder='* email'
-                    keyboardType='email-address'
+                    keyboardType='default'
                     value={this.state.email}
                     />
                   <TextInput
@@ -49,6 +49,12 @@ class Login extends Component {
                     
                     <Text style={styles.textButton} > Login </Text>    
                 
+                </TouchableOpacity> 
+
+                <TouchableOpacity style={styles.buttonRegister} onPress={() => this.props.navigation.navigate('Register')}>
+                    
+                    <Text> Crear una cuenta </Text>    
+    
                 </TouchableOpacity> 
                 </View>
             
@@ -85,7 +91,19 @@ const styles = StyleSheet.create({
     },
     textButton:{
         color: '#fff'
+    },
+    buttonRegister:{
+        color: '000',
+        padding: 10,
+        marginVertical: 15, 
+        
+        borderSolid: 'solid',
+        borderRadius: 4,
+        borderWidth: 1,
+        borderColor: "red",
+
     }
+    
 });
 
 export default Login;
