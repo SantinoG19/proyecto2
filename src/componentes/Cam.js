@@ -5,7 +5,7 @@ import { storage } from "../firebase/config";
 
 
 
-class Camera extends Component {
+class Cam extends Component {
     constructor(props) {
         super(props);
         this.state = { permisos: false, photo: '', showCamera: true}
@@ -132,4 +132,4 @@ const styles = StyleSheet.create({
   });
 
 
-export default Camera
+export default Cam

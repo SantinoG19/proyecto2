@@ -10,10 +10,18 @@ class Register extends Component {
             email:'',
             userName:'',
             password:'',
+            textError: false,
         }
     }
 
     register(email,pass){
+        if(this.state.email == '' || this.state.email.includes("@") == false){
+            return this.setState({textError: "You must enter a valid email address"})
+        }else if (this.state.password == '' || this.state.password.length <6){
+            return this.setState({textError: "Your password must be at least 6 characters long"})
+        }else if (this.state.userName == '') {
+            return this.setState({textError:'You must complete the username'})
+        }
         auth.createUserWithEmailAndPassword(email,pass)
             .then(()=>{
                 console.log("Registrado ok");
@@ -55,7 +63,10 @@ class Register extends Component {
                 this.register(this.state.email, this.state.password)}>
                     
                     <Text style={styles.textButton} > Registrarse </Text>    
-                
+                </TouchableOpacity> 
+
+                <TouchableOpacity style={styles.buttonError} onPress={()=> this.setState({textError: 'You must complete the required fields'})}>
+                    <Text style={styles.textButton} > Register</Text>    
                 </TouchableOpacity> 
 
                 <TouchableOpacity style={styles.buttonRegister} onPress={() => this.props.navigation.navigate('Login')}>

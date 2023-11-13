@@ -7,7 +7,7 @@ import {
   StyleSheet,
   FlatList 
 } from "react-native";
-import Camera from "../../componentes/Camera";
+import Cam from "../../componentes/Cam";
 
 import { auth, db } from "../../firebase/config";
 
@@ -41,7 +41,7 @@ class PostForm extends Component {
       <View>
         <Text>PostForm</Text>
 
-        {this.state.showCamera ? <Camera onImageUpload={(url) => this.onImageUpload(url)} /> : 
+        {this.state.showCamera ? <Cam onImageUpload={(url) => this.onImageUpload(url)} /> : 
 
         <>
 
