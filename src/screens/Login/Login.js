@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { auth, db } from '../../firebase/config';
 import {TextInput, TouchableOpacity, View, Text, StyleSheet} from 'react-native';
+import Register from '../Register/Register';
 
 
 class Login extends Component {
@@ -15,8 +16,8 @@ class Login extends Component {
 
     login(email,pass){
         auth.signInWithEmailAndPassword(email,pass)
-            .then(()=>{
-                console.log("El usuario ingreso correctamente ");
+            .then((response)=>{
+                console.log("El usuario ingreso correctamente ",response);
             })
             .catch(error => {
                 console.log(error);
@@ -51,9 +52,11 @@ class Login extends Component {
                 
                 </TouchableOpacity> 
 
+                
+
                 <TouchableOpacity style={styles.buttonRegister} onPress={() => this.props.navigation.navigate('Register')}>
                     
-                    <Text> Crear una cuenta </Text>    
+                    <Text> ¿No tienes cuenta? Registrate </Text>    
     
                 </TouchableOpacity> 
                 </View>
@@ -93,7 +96,7 @@ const styles = StyleSheet.create({
         color: '#fff'
     },
     buttonRegister:{
-        color: '000',
+        color: '#000',
         padding: 10,
         marginVertical: 15, 
         

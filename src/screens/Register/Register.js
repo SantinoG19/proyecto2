@@ -57,6 +57,12 @@ class Register extends Component {
                     <Text style={styles.textButton} > Registrarse </Text>    
                 
                 </TouchableOpacity> 
+
+                <TouchableOpacity style={styles.buttonRegister} onPress={() => this.props.navigation.navigate('Login')}>
+                    
+                    <Text> Iniciar sesión </Text>    
+    
+                </TouchableOpacity> 
                 </View>
             
         )
@@ -92,6 +98,17 @@ const styles = StyleSheet.create({
     },
     textButton:{
         color: '#fff'
+    },
+    buttonRegister:{
+        color: '#000',
+        padding: 10,
+        marginVertical: 15, 
+        
+        borderSolid: 'solid',
+        borderRadius: 4,
+        borderWidth: 1,
+        borderColor: "red",
+
     }
 });
 
