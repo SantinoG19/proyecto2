@@ -1,5 +1,5 @@
 import react, { Component } from 'react';
-import {TextInput, TouchableOpacity, View, Text, StyleSheet, FlatList, Image} from 'react-native';
+import { TouchableOpacity, View, Text, StyleSheet,Image} from 'react-native';
 import { auth, db } from '../firebase/config';
 import firebase from 'firebase';
 
@@ -49,7 +49,7 @@ class Post extends Component {
    
 
     render(){
-        // console.log(this.props);
+         console.log(this.props);
         return(
             <View style={styles.formContainer}>
                 <Text>----------------------------------------------------</Text>
