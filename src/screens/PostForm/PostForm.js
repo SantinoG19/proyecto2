@@ -5,7 +5,7 @@ import {
   View,
   Text,
   StyleSheet,
-  FlatList 
+  
 } from "react-native";
 import Cam from "../../componentes/Cam";
 

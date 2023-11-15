@@ -1,7 +1,6 @@
 import react, { Component } from "react";
 import {
-  TextInput,
-  TouchableOpacity,
+  
   View,
   Text,
   StyleSheet,
