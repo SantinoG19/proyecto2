@@ -10,20 +10,39 @@ class Login extends Component {
             email:'',
             userName:'',
             password:'',
+            textError:''
         }
     }
 
-    login(email,pass){
-        auth.signInWithEmailAndPassword(email,pass)
-            .then((response)=>{
-                console.log("El usuario ingreso correctamente ",response);
-            })
-            .catch(error => {
-                console.log(error);
-            })
 
+  componentDidMount() {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        this.props.navigation.navigate("Menu");
+      }
+    });
+  }
+
+  login(email, pass) {
+    if (email === '') {
+      return this.setState({
+        error: 'Debes completar el espacio de email'
+      })
+    } else if (pass === '') {
+        return this.setState({
+          error: 'Debes completar el espacio de contraseña'
+        })
     }
 
+    auth.signInWithEmailAndPassword(email, pass)
+      .then((response) => {
+        console.log("Se logueo correctamente", response);
+        this.props.navigation.navigate("Menu");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
     render(){
         return(
               <View style={styles.formContainer}>
