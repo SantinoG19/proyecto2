@@ -31,6 +31,7 @@ class Post extends Component {
     }
 
 
+
    likear(){
     //El post tendría que guardar una propiedad like con un array de los usuario que lo likearon.
     db.collection("posts").doc(this.props.infoPost.id).update({
