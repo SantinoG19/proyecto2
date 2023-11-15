@@ -19,8 +19,6 @@ export default function App() {
       <Stack.Screen name="Menu" component={Menu} options={{ headerShown: false }}/>
 
       <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
-      
-      
       <Stack.Screen name="Register" component={Register} options={{ headerShown: false }}/>
       <Stack.Screen name="Post" component={Post} options={{ headerShown: false }}/>
 
