@@ -11,10 +11,14 @@ class Register extends Component {
             userName:'',
             password:'',
             textError: false,
+            showCamera:false,
+            bio:'',
+            fotoPerfil: '',
+            textError: false,
         }
     }
 
-    register(email,pass){
+    register(email,pass,userName,bio,fotoPerfil){
         if(this.state.email == '' || this.state.email.includes("@") == false){
             return this.setState({textError: "You must enter a valid email address"})
         }else if (this.state.password == '' || this.state.password.length <6){
@@ -23,14 +27,26 @@ class Register extends Component {
             return this.setState({textError:'You must complete the username'})
         }
         auth.createUserWithEmailAndPassword(email,pass)
-            .then(()=>{
-                console.log("Registrado ok");
+        .then( response => {
+            console.log(response);
+            db.collection("user").add({
+                owner: email,
+                createdAt: Date.now(),
+                userName: userName,
+                bio: bio,
+                fotoPerfil: fotoPerfil
             })
-            .catch(error => {
-                console.log(error);
-            })
+            this.props.navigation.navigate("Login")
+        })
+        .catch((error) => {
+            this.setState({
+              textError: error.message
+          })
+            console.log(error);
+          });
 
-    }
+}
+
 
     render(){
         return(
@@ -46,7 +62,7 @@ class Register extends Component {
                  <TextInput
                     style={styles.input}
                     onChangeText={(text)=>this.setState({userName: text})}
-                    placeholder='* User name'
+                    placeholder=' User name'
                     keyboardType='default'
                     value={this.state.userName}
                     />
@@ -57,21 +73,43 @@ class Register extends Component {
                     keyboardType='email-address'
                     secureTextEntry={true}
                     value={this.state.password}
+
                 />
+                <TextInput
+                        style={styles.input}
+                        onChangeText={(bio)=>this.setState({bio: bio})}
+                        placeholder='Escribe una mini biografia'
+                        keyboardType='default'
+                        value={this.state.bio}
+                        />
 
-                 <TouchableOpacity style={styles.button} onPress={()=> 
-                this.register(this.state.email, this.state.password)}>
-                    
-                    <Text style={styles.textButton} > Registrarse </Text>    
-                </TouchableOpacity> 
+                    {/* PROFILE PICTURE */}
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={(url)=>this.setState({fotoPerfil: url})}
+                        placeholder='Subi la url de tu foto de perfil'
+                        keyboardType='default'
+                        value={this.state.fotoPerfil}
+                        />
 
-                <TouchableOpacity style={styles.buttonError} onPress={()=> this.setState({textError: 'You must complete the required fields'})}>
-                    <Text style={styles.textButton} > Register</Text>    
-                </TouchableOpacity> 
+                    {this.state.email.length > 0 && this.state.password.length >0 && this.state.userName.length > 0 ? 
 
+                    <TouchableOpacity style={styles.button} onPress={()=> 
+                    this.register(this.state.email, this.state.password, this.state.userName , this.state.Bio , this.state.fotoPerfil)}>
+                        
+                        <Text style={styles.textButton} > Registrate</Text>    
+
+                    </TouchableOpacity> : 
+
+                    <TouchableOpacity style={styles.buttonError} onPress={()=> this.setState({textError: 'Debes completar los espacios requeridos'})}>
+                        <Text style={styles.textButton} > </Text>    
+                    </TouchableOpacity> }
+
+                
                 <TouchableOpacity style={styles.buttonRegister} onPress={() => this.props.navigation.navigate('Login')}>
                     
                     <Text> Iniciar sesión </Text>    
+                    
     
                 </TouchableOpacity> 
                 </View>
