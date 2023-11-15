@@ -51,8 +51,7 @@ class Login extends Component {
                 
                 </TouchableOpacity> 
 
-                
-
+            
                 <TouchableOpacity style={styles.buttonRegister} onPress={() => this.props.navigation.navigate('Register')}>
                     
                     <Text> ¿No tienes cuenta? Registrate </Text>    
