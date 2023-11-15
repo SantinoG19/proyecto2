@@ -54,6 +54,7 @@ class Home extends Component {
                     ?
                     <Text>Cargando...</Text>
                     :
+                    
                     <FlatList 
                         data= {this.state.listaPost}
                         keyExtractor={ unPost => unPost.id }
