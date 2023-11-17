@@ -1,50 +1,39 @@
-import react, { Component } from "react";
+import React, { Component } from "react";
 import {
   TextInput,
   TouchableOpacity,
   View,
   Text,
-  StyleSheet,
-  
+  StyleSheet
 } from "react-native";
-import Cam from "../../componentes/Cam";
 
 import { auth, db } from "../../firebase/config";
-
-
 
 class PostForm extends Component {
   constructor() {
     super();
-    this.state = { post: "", showCamera: true, url: ''};
+    this.state = { post: "" };
   }
 
-
-  postear(){
-    db.collection("posts").add({
+  postear() {
+    db.collection("posts")
+      .add({
         owner: auth.currentUser.email,
         post: this.state.post,
-        photo: this.state.url,
         likes: [],
         createdAt: Date.now()
-    })
-    .then( console.log("Posteaste correctamente"))
-    .catch(error => console.log(`El error fue: ${error}`))
-  }
-
-  onImageUpload(url){
-    this.setState({ url: url , showCamera: false});
+      })
+      .then((response) => {
+        console.log("Se posteo correctamente", response);
+        this.props.navigation.navigate("User"); // Corregir aquí, eliminar el paréntesis extra
+      })
+      .catch(error => console.log(`El error fue: ${error}`));
   }
 
   render() {
     return (
       <View>
         <Text>PostForm</Text>
-
-        {this.state.showCamera ? <Cam onImageUpload={(url) => this.onImageUpload(url)} /> : 
-
-        <>
-
         <TextInput
           style={styles.input}
           onChangeText={(text) => this.setState({ post: text })}
@@ -58,39 +47,36 @@ class PostForm extends Component {
         >
           <Text style={styles.textButton}>Postear</Text>
         </TouchableOpacity>
-        </> }
       </View>
     );
   }
 }
+
 const styles = StyleSheet.create({
-    formContainer: {
-      paddingHorizontal: 10,
+  formContainer: {
+    paddingHorizontal: 10,
+    marginTop: 20,
+  },
+  input: {
+    height: 40, // Se cambió la altura a 40 para mejorar la visibilidad
+    paddingVertical: 15,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderStyle: "solid",
+    borderRadius: 6,
+    marginVertical: 10,
+  },
+  button: {
+    backgroundColor: "#f94144",
+      paddingHorizontal: 20,
+      paddingVertical: 10,
+      borderRadius: 8,
       marginTop: 20,
-    },
-    input: {
-      height: 20,
-      paddingVertical: 15,
-      paddingHorizontal: 10,
-      borderWidth: 1,
-      borderColor: "#ccc",
-      borderStyle: "solid",
-      borderRadius: 6,
-      marginVertical: 10,
-    },
-    button: {
-      backgroundColor: "blue",
-      paddingHorizontal: 10,
-      paddingVertical: 6,
-      textAlign: "center",
-      borderRadius: 4,
-      borderWidth: 1,
-      borderStyle: "solid",
-      borderColor: "#28a745",
-    },
-    textButton: {
-      color: "#fff",
-    },
-  });
+  },
+  textButton: {
+    color: "#fff",
+  },
+});
 
 export default PostForm;

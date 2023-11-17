@@ -20,7 +20,7 @@ class Home extends Component {
 
   componentDidMount(){
     //Traer datos
-    db.collection('posts').where("owner", "==", "julian@dh.com").onSnapshot(
+    db.collection('posts').onSnapshot(
         posteos => {
             let postsAMostrar = [];
 
@@ -53,6 +53,7 @@ class Home extends Component {
                     ?
                     <Text>Cargando...</Text>
                     :
+
                     
                     <FlatList 
                         data= {this.state.listaPost}
