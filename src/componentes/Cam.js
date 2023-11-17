@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {Camera} from 'expo-camera'
 import { Text, StyleSheet, View, TouchableOpacity, Image } from "react-native";
 import { storage } from "../firebase/config";
+import PostForm from "../screens/PostForm/PostForm";
 
 
 
@@ -46,13 +47,11 @@ class Cam extends Component {
         .then(image => {
            const ref = storage.ref(`photo/${Date.now()}.jpg`)
            ref.put(image)
-           .then( () => {
+           .then( ()=> {
             ref.getDownloadURL()
-            .then( url => {
-                this.props.onImageUpload(url)
-            }
-            )
-        })
+        .then (url => {
+            this.props.subirla(url)
+        })})
         })
         .catch(e => console.log(e))
     }

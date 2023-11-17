@@ -44,7 +44,7 @@ class Home extends Component {
   render() {
     console.log(this.state.listaPost);
     return (
-      <View style={styles.container}>
+      < >
         <Text>HOME</Text>
 
         <Text>Lista de Posteos</Text>
@@ -62,7 +62,7 @@ class Home extends Component {
                     />
                 }
 
-      </View>
+      </>
     );
   }
 }

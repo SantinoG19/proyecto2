@@ -4,15 +4,16 @@ import {
   TouchableOpacity,
   View,
   Text,
-  StyleSheet
+  StyleSheet,
 } from "react-native";
 
 import { auth, db } from "../../firebase/config";
+import Cam from "../../componentes/Cam";
 
 class PostForm extends Component {
   constructor() {
     super();
-    this.state = { post: "" };
+    this.state = { post: "", showCamera: true, url:url };
   }
 
   postear() {
@@ -20,33 +21,46 @@ class PostForm extends Component {
       .add({
         owner: auth.currentUser.email,
         post: this.state.post,
+        photo: this.state.url,
         likes: [],
-        createdAt: Date.now()
+        createdAt: Date.now(),
       })
       .then((response) => {
         console.log("Se posteo correctamente", response);
         this.props.navigation.navigate("User"); // Corregir aquí, eliminar el paréntesis extra
       })
-      .catch(error => console.log(`El error fue: ${error}`));
+      .catch((error) => console.log(`El error fue: ${error}`));
+
+
+  }
+  subirla(url){
+    this.setState({ url: url , showCamera: false});
   }
 
   render() {
     return (
       <View>
         <Text>PostForm</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={(text) => this.setState({ post: text })}
-          placeholder="Escribe un post"
-          keyboardType="default"
-          value={this.state.post}
-        />
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => this.postear()}
-        >
-          <Text style={styles.textButton}>Postear</Text>
-        </TouchableOpacity>
+
+        {this.state.showCamera ? (
+          <Cam subirla={(url) => this.subirla(url)} />
+        ) : (
+          <>
+            <TextInput
+              style={styles.input}
+              onChangeText={(text) => this.setState({ post: text })}
+              placeholder="Escribe un post"
+              keyboardType="default"
+              value={this.state.post}
+            />
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => this.postear()}
+            >
+              <Text style={styles.textButton}>Postear</Text>
+            </TouchableOpacity>
+          </>
+        )}
       </View>
     );
   }
@@ -69,10 +83,10 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "#f94144",
-      paddingHorizontal: 20,
-      paddingVertical: 10,
-      borderRadius: 8,
-      marginTop: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 8,
+    marginTop: 20,
   },
   textButton: {
     color: "#fff",
