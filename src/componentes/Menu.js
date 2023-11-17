@@ -3,7 +3,7 @@ import react, { Component } from "react";
 
 import Home from "../screens/Home/Home";
 import PostForm from "../screens/Postform/Postform";
-import User from "../screens/User/User";
+import Profile from "../screens/Profile/Profile";
 import Buscador from "../screens/Buscador/Buscador";
 
 
@@ -22,7 +22,7 @@ class Menu extends Component {
         <Tab.Navigator>
             <Tab.Screen name="Home" component={Home}/>
             <Tab.Screen name="PostForm" component={PostForm}/>
-            <Tab.Screen name="User" component={User}/>
+            <Tab.Screen name="Profile" component={Profile}/>
             <Tab.Screen 
               name="Buscador" 
               component={Buscador} 

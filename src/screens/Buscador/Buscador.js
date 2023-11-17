@@ -93,11 +93,16 @@ const styles = StyleSheet.create({
     height:50
   },
   input: {
-    height: 40,
-    backgroundColor:'blue',
-    paddingLeft: 10,
-    margin:10,
-    borderRadius:15,
+    height: 40, // Se cambió la altura a 40 para mejorar la visibilidad
+    paddingVertical: 15,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderStyle: "solid",
+    borderRadius: 6,
+    marginVertical: 10,
+    backgroundColor: "#f94144",
+    
   },
   profilePic:{
     height:40,
