@@ -26,9 +26,7 @@ class Menu extends Component {
             <Tab.Screen 
               name="Buscador" 
               component={Buscador} 
-              options={
-              {tabBarIcon: () => <FontAwesome name="Buscador" size={24} color="black" />,
-              headerShown: false }}
+              
             />
         </Tab.Navigator>
     );
