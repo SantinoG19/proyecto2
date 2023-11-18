@@ -53,11 +53,11 @@ class Post extends Component {
     return (
       <View style={styles.formContainer}>
         <Text>----------------------------------------------------</Text>
-        <Text>Datos del Post</Text>
-        <Text>Email: {this.props.infoPost.datos.owner}</Text>
-        <Text>Texto: {this.props.infoPost.datos.post}</Text>
+        <Text style={styles.texto}>Datos del Post</Text>
+        <Text style={styles.texto}>Email: {this.props.infoPost.datos.owner}</Text>
+        <Text style={styles.texto}>Texto: {this.props.infoPost.datos.post}</Text>
         <Image style={styles.camera} source={{ uri: this.props.infoPost.datos.photo }} />
-        <Text>Cantidad de Likes: {this.props.infoPost.datos.likes.length}</Text>
+        <Text style={styles.texto} >Cantidad de Likes: {this.props.infoPost.datos.likes.length}</Text>
 
         {/* If ternario */}
         {this.state.like ? (
@@ -109,6 +109,12 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderColor: 'salmon',
     width: '30%',
+  },
+  texto:{
+    color: 'black',
+    fontSize: 15,
+    
+
   },
   textButton: {
     color: '#fff',

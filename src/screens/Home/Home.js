@@ -77,12 +77,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginLeft: 20,
     marginVertical: 10,
-    color:'blue'
+    color:'#4169E1'
 },
 lista:{
   fontSize: 15,
-  color:'blue',
-  
+  color:'#4169E1',
+
 }
 });
 
