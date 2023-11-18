@@ -14,17 +14,17 @@ class Register extends Component {
             showCamera:false,
             bio:'',
             fotoPerfil: '',
-            textError: false,
+            formError: false,
         }
     }
 
     register(email,pass,userName,bio,fotoPerfil){
         if(this.state.email == '' || this.state.email.includes("@") == false){
-            return this.setState({textError: "You must enter a valid email address"})
+            return this.setState({formError: "You must enter a valid email address"})
         }else if (this.state.password == '' || this.state.password.length <6){
-            return this.setState({textError: "Your password must be at least 6 characters long"})
+            return this.setState({formError: "Your password must be at least 6 characters long"})
         }else if (this.state.userName == '') {
-            return this.setState({textError:'You must complete the username'})
+            return this.setState({formError:'You must complete the username'})
         }
         auth.createUserWithEmailAndPassword(email,pass)
         .then( response => {

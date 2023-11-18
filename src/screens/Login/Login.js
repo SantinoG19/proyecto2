@@ -10,7 +10,7 @@ class Login extends Component {
             email:'',
             userName:'',
             password:'',
-            error:''
+            formError:''
         }
     }
 
@@ -23,18 +23,18 @@ class Login extends Component {
     });
   }
 
-  login(email, pass) {
+  login(email, contra) {
     if (email === '') {
       return this.setState({
-        error: 'Debes completar el espacio de email'
+        formError: 'Debes completar el campo email'
       })
-    } else if (pass === '') {
+    } else if (contra === '') {
         return this.setState({
-          error: 'Debes completar el espacio de contraseña'
+          error: 'Debes completar el campo password'
         })
     }
 
-    auth.signInWithEmailAndPassword(email, pass)
+    auth.signInWithEmailAndPassword(email, contra)
       .then((response) => {
         console.log("Se logueo correctamente", response);
         this.props.navigation.navigate("Menu");
@@ -43,6 +43,7 @@ class Login extends Component {
         console.log(error);
       });
   }
+  
     render(){
         return(
               <View style={styles.formContainer}>
@@ -50,7 +51,7 @@ class Login extends Component {
                 <TextInput
                     style={styles.input}
                     onChangeText={(text)=>this.setState({email: text})}
-                    placeholder='* email'
+                    placeholder=' email'
                     keyboardType='default'
                     value={this.state.email}
                     />
