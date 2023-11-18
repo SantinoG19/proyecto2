@@ -27,7 +27,7 @@ class PostForm extends Component {
       })
       .then((response) => {
         console.log("Se posteo correctamente", response);
-        this.props.navigation.navigate("Profile"); // Corregir aquí, eliminar el paréntesis extra
+        this.props.navigation.navigate("Home"); // Corregir aquí, eliminar el paréntesis extra
       })
       .catch((error) => console.log(`El error fue: ${error}`));
 
