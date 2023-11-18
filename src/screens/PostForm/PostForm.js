@@ -13,7 +13,7 @@ import Cam from "../../componentes/Cam";
 class PostForm extends Component {
   constructor() {
     super();
-    this.state = { post: "", showCamera: true, url:url };
+    this.state = { post: "", showCamera: true, url:'' };
   }
 
   postear() {
@@ -27,7 +27,7 @@ class PostForm extends Component {
       })
       .then((response) => {
         console.log("Se posteo correctamente", response);
-        this.props.navigation.navigate("User"); // Corregir aquí, eliminar el paréntesis extra
+        this.props.navigation.navigate("Profile"); // Corregir aquí, eliminar el paréntesis extra
       })
       .catch((error) => console.log(`El error fue: ${error}`));
 
