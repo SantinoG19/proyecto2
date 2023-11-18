@@ -54,7 +54,9 @@ class Post extends Component {
       <View style={styles.formContainer}>
         <Text>----------------------------------------------------</Text>
         <Text>Datos del Post</Text>
-        <Text>Email: {this.props.infoPost.datos.owner}</Text>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate("Profile")}>
+          <Text>Email: {this.props.infoPost.datos.owner}</Text>
+          </TouchableOpacity>
         <Text>Texto: {this.props.infoPost.datos.post}</Text>
         <Image style={styles.camera} source={{ uri: this.props.infoPost.datos.photo }} />
         <Text>Cantidad de Likes: {this.props.infoPost.datos.likes.length}</Text>
