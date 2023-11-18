@@ -47,7 +47,7 @@ class Login extends Component {
     render(){
         return(
               <View style={styles.formContainer}>
-                <Text>Login</Text>
+                <Text style={styles.title}>Login</Text>
                 <TextInput
                     style={styles.input}
                     onChangeText={(text)=>this.setState({email: text})}
@@ -90,14 +90,21 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
     input:{
-        height:20,
-        paddingVertical:15,
-        paddingHorizontal: 10,
-        borderWidth:1,
-        borderColor: '#ccc',
-        borderStyle: 'solid',
-        borderRadius: 6,
-        marginVertical:10,
+      height:20,
+      paddingVertical:15,
+      paddingHorizontal: 10,
+      borderWidth:1,
+      borderColor: '#ccc',
+      borderStyle: 'solid',
+      backgroundColor:'#ccc',
+      borderRadius: 6,
+      marginVertical:10,
+  },
+    title:{
+      fontWeight: 'bold',
+      color: 'purple',
+      marginTop:10,
+      fontSize: 20
     },
     button:{
         
@@ -121,7 +128,7 @@ const styles = StyleSheet.create({
         borderSolid: 'solid',
         borderRadius: 4,
         borderWidth: 1,
-        borderColor: "red",
+        borderColor: "#28a745",
 
     }
     

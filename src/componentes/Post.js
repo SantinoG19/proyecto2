@@ -78,10 +78,16 @@ const styles = StyleSheet.create({
   formContainer: {
     height: '60vh',
     width: '100vw',
+    flex: 1,
+    backgroundColor: '#ffffff',
+    borderRadius: 6,
+    marginHorizontal: 20,
+    padding: 5,
+    marginVertical: 5
   },
   camera: {
     width: '50%',
-    height: 200,
+    height: 220,
   },
   input: {
     height: 20,
@@ -106,6 +112,10 @@ const styles = StyleSheet.create({
   },
   textButton: {
     color: '#fff',
+    textAlign: 'center',
+    fontSize: 15,
+    fontWeight: 'bold'
+
   },
 });
 
