@@ -10,7 +10,7 @@ class Login extends Component {
             email:'',
             userName:'',
             password:'',
-            textError:''
+            error:''
         }
     }
 
