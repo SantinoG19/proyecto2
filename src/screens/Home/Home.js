@@ -45,9 +45,9 @@ class Home extends Component {
     console.log(this.state.listaPost);
     return (
       < >
-        <Text>HOME</Text>
+        <Text style={styles.title}>HOME</Text>
 
-        <Text>Lista de Posteos</Text>
+        <Text style={styles.lista}>Lista de Posteos</Text>
                 {
                     this.state.listaPost.length === 0 
                     ?
@@ -72,6 +72,18 @@ const styles = StyleSheet.create({
   container: {
     height: '100vh',
   },
+  title:{
+    fontSize: 30,
+    fontWeight: 'bold',
+    marginLeft: 20,
+    marginVertical: 10,
+    color:'#4169E1'
+},
+lista:{
+  fontSize: 15,
+  color:'#4169E1',
+
+}
 });
 
 export default Home;

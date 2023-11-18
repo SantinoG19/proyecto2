@@ -49,17 +49,21 @@ class Post extends Component {
       .then(this.setState({ like: false }));
   }
 
+  eliminar(){
+    db.collection('posts')
+    .doc(this.props.infoPost.id).delete()
+    
+   }
+
   render() {
     return (
       <View style={styles.formContainer}>
         <Text>----------------------------------------------------</Text>
-        <Text>Datos del Post</Text>
-        <TouchableOpacity onPress={() => this.props.navigation.navigate("Profile")}>
-          <Text>Email: {this.props.infoPost.datos.owner}</Text>
-          </TouchableOpacity>
-        <Text>Texto: {this.props.infoPost.datos.post}</Text>
+        <Text style={styles.texto}>Datos del Post</Text>
+        <Text style={styles.texto}>Email: {this.props.infoPost.datos.owner}</Text>
+        <Text style={styles.texto}>Texto: {this.props.infoPost.datos.post}</Text>
         <Image style={styles.camera} source={{ uri: this.props.infoPost.datos.photo }} />
-        <Text>Cantidad de Likes: {this.props.infoPost.datos.likes.length}</Text>
+        <Text style={styles.texto} >Cantidad de Likes: {this.props.infoPost.datos.likes.length}</Text>
 
         {/* If ternario */}
         {this.state.like ? (
@@ -71,6 +75,12 @@ class Post extends Component {
             <Text style={styles.textButton}>Like</Text>
           </TouchableOpacity>
         )}
+
+{auth.currentUser.email == this.props.infoPost.datos.owner && 
+                        <TouchableOpacity style={styles.button} onPress={()=>this.eliminar()} activeOpacity={0.7}>
+                            <Text style={styles.textButton}>eliminar</Text>
+                        </TouchableOpacity>
+                        } 
       </View>
     );
   }
@@ -80,10 +90,16 @@ const styles = StyleSheet.create({
   formContainer: {
     height: '60vh',
     width: '100vw',
+    flex: 1,
+    backgroundColor: '#ffffff',
+    borderRadius: 6,
+    marginHorizontal: 20,
+    padding: 5,
+    marginVertical: 5
   },
   camera: {
     width: '50%',
-    height: 200,
+    height: 220,
   },
   input: {
     height: 20,
@@ -106,8 +122,18 @@ const styles = StyleSheet.create({
     borderColor: 'salmon',
     width: '30%',
   },
+  texto:{
+    color: 'black',
+    fontSize: 15,
+    
+
+  },
   textButton: {
     color: '#fff',
+    textAlign: 'center',
+    fontSize: 15,
+    fontWeight: 'bold'
+
   },
 });
 

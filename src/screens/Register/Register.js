@@ -50,8 +50,9 @@ class Register extends Component {
 
     render(){
         return(
+            
               <View style={styles.formContainer}>
-                <Text>Register</Text>
+                <Text style={styles.title}>Register</Text>
                 <TextInput
                     style={styles.input}
                     onChangeText={(text)=>this.setState({email: text})}
@@ -106,7 +107,7 @@ class Register extends Component {
                     </TouchableOpacity> }
 
                 
-                <TouchableOpacity style={styles.buttonRegister} onPress={() => this.props.navigation.navigate('Login')}>
+                <TouchableOpacity style={styles.buttonLogin} onPress={() => this.props.navigation.navigate('Login')}>
                     
                     <Text> Iniciar sesión </Text>    
                     
@@ -131,6 +132,7 @@ const styles = StyleSheet.create({
         borderWidth:1,
         borderColor: '#ccc',
         borderStyle: 'solid',
+        backgroundColor:'#ccc',
         borderRadius: 6,
         marginVertical:10,
     },
@@ -145,18 +147,24 @@ const styles = StyleSheet.create({
         borderStyle: 'solid',
         borderColor: '#28a745'
     },
+    title:{
+        fontWeight: 'bold',
+        color: 'green',
+        marginTop:10,
+        fontSize: 20
+      },
     textButton:{
         color: '#fff'
     },
-    buttonRegister:{
-        color: '#000',
+    buttonLogin:{
+        color: 'purple',
         padding: 10,
         marginVertical: 15, 
         
         borderSolid: 'solid',
         borderRadius: 4,
         borderWidth: 1,
-        borderColor: "red",
+        borderColor: "purple",
 
     }
 });
