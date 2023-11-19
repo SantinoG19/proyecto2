@@ -10,7 +10,7 @@ class Login extends Component {
             email:'',
             userName:'',
             password:'',
-            formError:''
+            textError:''
         }
     }
 
@@ -23,26 +23,28 @@ class Login extends Component {
     });
   }
 
-  login(email, contra) {
-    if (email === '') {
-      return this.setState({
-        formError: 'Debes completar el campo email'
-      })
-    } else if (contra === '') {
-        return this.setState({
-          error: 'Debes completar el campo password'
-        })
-    }
-
-    auth.signInWithEmailAndPassword(email, contra)
+  login(email, pass) {
+    auth
+      .signInWithEmailAndPassword(email, pass)
       .then((response) => {
-        console.log("Se logueo correctamente", response);
         this.props.navigation.navigate("Menu");
       })
       .catch((error) => {
+        if (error.code == 'auth/internal-erro'){
+          this.setState({
+            textError: "El mail o contraseña es incorrecto"
+            
+          })
+        }
+        else {
+        this.setState({
+          textError: error.message
+      })}
         console.log(error);
       });
   }
+
+
   
     render(){
         return(
@@ -63,20 +65,22 @@ class Login extends Component {
                     secureTextEntry={true}
                     value={this.state.password}
                 />
+                  {this.state.email.length > 0 && this.state.password.length > 0 ? 
 
-                 <TouchableOpacity style={styles.button} onPress={()=> 
-                this.login(this.state.email, this.state.password)}>
-                    
-                    <Text style={styles.textButton} > Login </Text>    
-                
-                </TouchableOpacity> 
-
-            
-                <TouchableOpacity style={styles.buttonRegister} onPress={() => this.props.navigation.navigate('Register')}>
+                  
+                  <TouchableOpacity style={styles.button}
+                    onPress={() => this.login(this.state.email, this.state.password)}>
+                    <Text style={styles.textButton}>Login</Text>
+                  </TouchableOpacity> :
+                  <TouchableOpacity style={styles.errorButton} onPress={()=> this.setState({textError: 'Debes completar los campos vacios'})}>
+                  <Text style={styles.textButton} > Login</Text>    
+                  </TouchableOpacity> }  
+                  {this.state.textError.length > 0 ? <Text style={styles.textError}> {this.state.textError} </Text> : false }
+                  <TouchableOpacity style={styles.buttonRegister} onPress={() => this.props.navigation.navigate('Register')}>
                     
                     <Text> ¿No tienes cuenta? Registrate </Text>    
     
-                </TouchableOpacity> 
+                </TouchableOpacity>  
                 </View>
             
         )
@@ -119,6 +123,15 @@ const styles = StyleSheet.create({
     },
     textButton:{
         color: '#fff'
+    },
+    errorButton:{
+      flex:1,
+      backgroundColor:'#896a92',
+      paddingHorizontal: 10,
+      color: 'white',
+      paddingVertical: 6,
+      borderRadius:4, 
+      
     },
     buttonRegister:{
         color: '#000',
