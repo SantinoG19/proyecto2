@@ -49,21 +49,7 @@ class Post extends Component {
       })
       .then(this.setState({ like: false }));
   }
-  Comentario() {
-    db.collection("posts")
-      .doc(this.props.infoPost.id)
-      .update({
-        comments: firebase.firestore.FieldValue.arrayUnion({
-          autor: auth.currentUser.email,
-          texto: this.state.comments,
-        }),
-      })
-      .then(() => {
-        this.setState({
-          comments: '',
-        });
-      });
-  }
+ 
 
   eliminar(){
     db.collection('posts')
@@ -98,23 +84,14 @@ class Post extends Component {
                         </TouchableOpacity>
                         } 
 
-<TouchableOpacity style={styles.buttonCommentariosTotales} onPress={() => this.props.navigation.navigate("Comentario", {id: this.props.infoPost})}>
-                    <Text style = {styles.textButton}>Cantidad total de comentarios</Text>
-                </TouchableOpacity>
-                <View style={styles.seccionComments}>
-                    <TextInput
-                    style={styles.inputComments}
-                    onChangeText={(text) => this.setState({ comments: text })}
-                    placeholder="Insertar comentario"
-                    keyboardType="default"
-                    value={this.state.comments}
-                    />
-                    {this.state.comments === '' ? null : 
-                        <TouchableOpacity style={styles.buttonComments} onPress={() => this.Comentario()}>
-                            <Text style={styles.textButton}>Comentar</Text>
-                        </TouchableOpacity>
-                    }
-                </View>
+<View>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate(
+            'Comentario',
+            {id:this.props.id}
+            )}>
+            <Text style={styles.boton}> Agregar comentario</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
