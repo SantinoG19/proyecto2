@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, View, Text, StyleSheet, Image } from 'react-native';
+import { TouchableOpacity,TextInput ,View, Text, StyleSheet, Image } from 'react-native';
 import { auth, db } from '../firebase/config';
 import firebase from 'firebase';
 
@@ -8,6 +8,7 @@ class Post extends Component {
     super(props);
     this.state = {
       like: false,
+      comments:'',
     };
   }
 
@@ -48,6 +49,21 @@ class Post extends Component {
       })
       .then(this.setState({ like: false }));
   }
+  Comentario() {
+    db.collection("posts")
+      .doc(this.props.infoPost.id)
+      .update({
+        comments: firebase.firestore.FieldValue.arrayUnion({
+          autor: auth.currentUser.email,
+          texto: this.state.comments,
+        }),
+      })
+      .then(() => {
+        this.setState({
+          comments: '',
+        });
+      });
+  }
 
   eliminar(){
     db.collection('posts')
@@ -81,6 +97,24 @@ class Post extends Component {
                             <Text style={styles.textButton}>eliminar</Text>
                         </TouchableOpacity>
                         } 
+
+<TouchableOpacity style={styles.buttonCommentariosTotales} onPress={() => this.props.navigation.navigate("Comentario", {id: this.props.infoPost})}>
+                    <Text style = {styles.textButton}>Cantidad total de comentarios</Text>
+                </TouchableOpacity>
+                <View style={styles.seccionComments}>
+                    <TextInput
+                    style={styles.inputComments}
+                    onChangeText={(text) => this.setState({ comments: text })}
+                    placeholder="Insertar comentario"
+                    keyboardType="default"
+                    value={this.state.comments}
+                    />
+                    {this.state.comments === '' ? null : 
+                        <TouchableOpacity style={styles.buttonComments} onPress={() => this.Comentario()}>
+                            <Text style={styles.textButton}>Comentar</Text>
+                        </TouchableOpacity>
+                    }
+                </View>
       </View>
     );
   }

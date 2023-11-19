@@ -10,7 +10,7 @@ class Register extends Component {
             email:'',
             userName:'',
             password:'',
-            textError: false,
+formr: false,
             showCamera:false,
             bio:'',
             fotoPerfil: '',
@@ -40,7 +40,7 @@ class Register extends Component {
         })
         .catch((error) => {
             this.setState({
-              textError: error.message
+              formError: error.message
           })
             console.log(error);
           });
@@ -102,7 +102,7 @@ class Register extends Component {
 
                     </TouchableOpacity> : 
 
-                    <TouchableOpacity style={styles.buttonError} onPress={()=> this.setState({textError: 'Debes completar los espacios requeridos'})}>
+                    <TouchableOpacity style={styles.buttonError} onPress={()=> this.setState({formError: 'Debes completar los espacios requeridos'})}>
                         <Text style={styles.textButton} > </Text>    
                     </TouchableOpacity> }
 
