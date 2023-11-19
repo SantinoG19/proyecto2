@@ -8,6 +8,7 @@ import Menu from "./src/componentes/Menu";
 import Post from "./src/componentes/Post";
 import Buscador from "./src/screens/Buscador/Buscador"; 
 import Comentario from "./src/screens/Comentario/Comentario";
+import EditProfile from  './src/screens/EditProfile/EditProfile';
 
 
 
@@ -29,6 +30,8 @@ export default function App() {
       <Stack.Screen name="Register" component={Register} options={{ headerShown: false }}/>
       <Stack.Screen name="Post" component={Post} options={{ headerShown: false }}/>
       <Stack.Screen name="Comentario" component={Comentario}options={{ headerShown: true }}/>
+      <Stack.Screen name='EditProfile' component={EditProfile} options={ { headerShown: false } }/>
+      
       
       
 
