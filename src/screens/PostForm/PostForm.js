@@ -24,6 +24,7 @@ class PostForm extends Component {
         photo: this.state.url,
         likes: [],
         createdAt: Date.now(),
+        
       })
       .then((response) => {
         console.log("Se posteo correctamente", response);

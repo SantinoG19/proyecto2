@@ -1,73 +1,108 @@
 import React, { Component } from 'react';
-import { TouchableOpacity,TextInput ,View, Text, StyleSheet, Image } from 'react-native';
+import {
+  TouchableOpacity,
+  TextInput,
+  View,
+  Text,
+  StyleSheet,
+  Image,
+} from 'react-native';
 import { auth, db } from '../firebase/config';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 
 class Post extends Component {
   constructor(props) {
     super(props);
     this.state = {
       like: false,
-      comments:'',
+      comentario: '',
     };
   }
 
   componentDidMount() {
-    // Indicar si el post ya está likeado o no
-    let likes = this.props.infoPost.datos.likes;
+    // Verificar si el usuario actual ya ha dado like al post
+    const likes = this.props.infoPost.datos.likes;
 
-    if (likes.length === 0) {
+    if (likes.includes(auth.currentUser.email)) {
       this.setState({
-        like: false,
-      });
-    }
-    if (likes.length > 0) {
-      likes.forEach((like) => {
-        if (like === auth.currentUser.email) {
-          this.setState({ like: true });
-        }
+        like: true,
       });
     }
   }
 
   likear() {
-    // El post tendría que guardar una propiedad like con un array de los usuario que lo likearon.
+    // Dar like al post y actualizar la base de datos
     db.collection('posts')
       .doc(this.props.infoPost.id)
       .update({
         likes: firebase.firestore.FieldValue.arrayUnion(auth.currentUser.email),
       })
-      .then(this.setState({ like: true }));
+      .then(() => {
+        this.setState({ like: true });
+      })
+      .catch(error => {
+        console.error('Error dando like:', error);
+      });
   }
 
   dislike() {
-    // Quitar del array de likes al usario que está mirando el post.
+    // Quitar like al post y actualizar la base de datos
     db.collection('posts')
       .doc(this.props.infoPost.id)
       .update({
         likes: firebase.firestore.FieldValue.arrayRemove(auth.currentUser.email),
       })
-      .then(this.setState({ like: false }));
+      .then(() => {
+        this.setState({ like: false });
+      })
+      .catch(error => {
+        console.error('Error quitando like:', error);
+      });
   }
- 
 
-  eliminar(){
+  eliminar() {
+    // Eliminar el post de la base de datos
     db.collection('posts')
-    .doc(this.props.infoPost.id).delete()
-    
-   }
+      .doc(this.props.infoPost.id)
+      .delete()
+      .catch(error => {
+        console.error('Error eliminando el post:', error);
+      });
+  }
+
+  comentar() {
+    // Agregar un comentario al post
+    const { comentario } = this.state;
+
+    db.collection('posts')
+      .doc(this.props.infoPost.id)
+      .update({
+        comentarios: firebase.firestore.FieldValue.arrayUnion(comentario),
+      })
+      .then(() => {
+        this.setState({ comentario: '' });
+      })
+      .catch(error => {
+        console.error('Error agregando comentario:', error);
+      });
+  }
 
   render() {
+    const { infoPost, navigation } = this.props;
+
     return (
       <View style={styles.formContainer}>
         <Text>----------------------------------------------------</Text>
         <Text style={styles.texto}>Datos del Post</Text>
-        <Text style={styles.texto}>Email: {this.props.infoPost.datos.owner}</Text>
-        <Text style={styles.texto}>Texto: {this.props.infoPost.datos.post}</Text>
-        <Image style={styles.camera} source={{ uri: this.props.infoPost.datos.photo }} />
-        <Text style={styles.texto} >Cantidad de Likes: {this.props.infoPost.datos.likes.length}</Text>
+        <Text style={styles.texto}>Email: {infoPost.datos.owner}</Text>
+        <Text style={styles.texto}>Texto: {infoPost.datos.post}</Text>
+        <Image style={styles.camera} source={{ uri: infoPost.datos.photo }} />
+        <Text style={styles.texto}>
+          Cantidad de Likes: {infoPost.datos.likes.length}
+        </Text>
 
-        {/* If ternario */}
+        {/* Botón de like/dislike */}
         {this.state.like ? (
           <TouchableOpacity style={styles.button} onPress={() => this.dislike()}>
             <Text style={styles.textButton}>Dislike</Text>
@@ -78,18 +113,35 @@ class Post extends Component {
           </TouchableOpacity>
         )}
 
-{auth.currentUser.email == this.props.infoPost.datos.owner && 
-                        <TouchableOpacity style={styles.button} onPress={()=>this.eliminar()} activeOpacity={0.7}>
-                            <Text style={styles.textButton}>eliminar</Text>
-                        </TouchableOpacity>
-                        } 
+        {/* Botón eliminar (solo visible para el propietario del post) */}
+        {auth.currentUser.email === infoPost.datos.owner && (
+          <TouchableOpacity style={styles.button} onPress={() => this.eliminar()}>
+            <Text style={styles.textButton}>Eliminar</Text>
+          </TouchableOpacity>
+        )}
 
-<View>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate(
-            'Comentario',
-            {id:this.props.id}
-            )}>
-            <Text style={styles.boton}> Agregar comentario</Text>
+        {/* Navegación a la pantalla de comentarios */}
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate('Comentarios', {
+              postId: infoPost.id,
+              owner: infoPost.datos.owner,
+            })
+          }
+        >
+          <Text> comentarios</Text>
+        </TouchableOpacity>
+
+        {/* Input para comentarios y botón de enviar */}
+        <View>
+          <TextInput
+            onChangeText={(text) => this.setState({ comentario: text })}
+            placeholder="Comentario..."
+            keyboardType="default"
+            value={this.state.comentario}
+          />
+          <TouchableOpacity onPress={() => this.comentar()}>
+            <Text>Enviar comentario</Text>
           </TouchableOpacity>
         </View>
       </View>
