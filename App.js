@@ -19,6 +19,7 @@ export default function App() {
   return (
     <NavigationContainer style={styles.container}>
       <Stack.Navigator>
+
         
         
       <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
@@ -28,7 +29,7 @@ export default function App() {
       
       
       <Stack.Screen name="Register" component={Register} options={{ headerShown: false }}/>
-      <Stack.Screen name="Post" component={Post} options={{ headerShown: false }}/>
+      <Stack.Screen name="Home" component={Post} options={{ headerShown: false }}/>
       <Stack.Screen name="Comentario" component={Comentario}options={{ headerShown: true }}/>
       <Stack.Screen name='EditProfile' component={EditProfile} options={ { headerShown: false } }/>
       
