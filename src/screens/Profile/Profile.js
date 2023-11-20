@@ -9,13 +9,13 @@ class Profile extends Component {
   constructor(){
       super()
       this.state={
-          users: [],
+          usuario: [],
           listaP: []
       }   
   }
   componentDidMount(){
     
-      db.collection('users').where('owner', '==', auth.currentUser.email).onSnapshot(
+      db.collection("user").where('owner', '==', auth.currentUser.email).onSnapshot(
           docs =>{
               let users = [];
               docs.forEach( doc => {
@@ -24,7 +24,7 @@ class Profile extends Component {
                      data: doc.data()
                   })
               this.setState({
-                  users: users
+                  usuario: users
               })
               })
           }
@@ -83,7 +83,7 @@ class Profile extends Component {
                       data= {this.state.users}
                       keyExtractor={ user => user.id }
                       renderItem={ ({item}) => <View>
-                          <Text>Usuario: {item.data.email} </Text>
+                          <Text>Usuario: {item.data.owner} </Text>
                           <Text>Bio: {item.data.bio}</Text>
                           
                           <Image

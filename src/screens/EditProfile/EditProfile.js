@@ -4,37 +4,56 @@ import {Image, TextInput, TouchableOpacity, View,Text,StyleSheet, FlatList, Scro
 import MyCamera from "../../componentes/Cam";
 
 class EditProfile extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
-      nuevoUsuario: this.props.route.params.userData[0].data.userName,
-      usuario: this.props.route.params.userData[0],
-      nuevaBio: this.props.route.params.userData[0].data.bio,
-      foto: this.props.route.params.userData[0].data.fotoPerfil,
-      
+      usuario: [],
     };
   }
- 
- 
-
-  edit(nuevoUsuario, nuevaBio, newPicture) {
+  componentDidMount() {
     
-    db.collection('users').doc(this.state.usuario.id).update({
-        bio: nuevaBio,
-        userName: nuevoUsuario,
-        fotoPerfil: newPicture
-    })
-        .then(res => {
-            this.setState({
-                
-            })
-        })
-        .catch(e => console.log(e))
+
+    db.collection("user")
+      .where("owner", "==", auth.currentUser.email)
+      .onSnapshot((docs) => {
+        let users = [];
+        docs.forEach((doc) => {
+          users.push({
+            id: doc.id,
+            data: doc.data(),
+          });
+          this.setState({
+            usuario: users,
+          });
+        });
+      });
+    console.log(this.state);
+  }
+
+  
+
+  editUser(email, pass, userName, bio, fotoPerfil) {
+    auth
+      .createUserWithEmailAndPassword(email, pass)
+      .then((response) => {
+        
+
+  
+        db.collection("user").doc(this.state.users.id).update({
+          owner: auth.currentUser.email,
+          userName: this.state.userName,
+          bio: this.state.bio,
+          fotoPerfil: this.state.fotoPerfil,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   traerUrlDeFoto(url) {
     this.setState({
-      foto: url,
+      fotoUrl: url,
     });
   }
 
@@ -45,43 +64,43 @@ class EditProfile extends Component {
           <View style={styles.firstBox}>
 
            
-            <Text >Nueva foto de Perfil</Text>
             <MyCamera
               style={styles.camera}
               traerUrlDeFoto={(url) => this.traerUrlDeFoto(url)}
             />
 
-           
-           <Text >Nombre de usuario</Text>
+          
             <TextInput
               style={styles.input}
               onChangeText={(text) => {
-                this.setState({ nuevoUsuario: text });
+                this.setState({ userName: text });
               }}
               blurOnSubmit={true}
-              placeholder="Nuevo user"
+              placeholder="Intrpduci tu usuario"
               keyboardType="default"
-              value={this.state.usuario.data.userName}
+              value={this.state.userName}
             />
-            <Text >Biografía</Text>
             <TextInput
               style={styles.input}
               onChangeText={(text) => {
-                this.setState({ nuevaBio: text });
+                this.setState({ bio: text });
               }}
+              minLength={6}
               blurOnSubmit={true}
-              placeholder="Biografia"
+              placeholder="Introduci tu contraseña"
               keyboardType="default"
-              value={this.state.usuario.data.bio}
+              secureTextEntry={true}
+              value={this.state.password}
             />
-            <Text ></Text>
+
             <TouchableOpacity
               style={styles.button}
               onPress={() =>
-                this.edit(
-                  this.state.nuevoUsuario,
-                  this.state.nuevaBio,
-                  this.state.foto
+                this.isError(
+                  this.state.email,
+                  this.state.password,
+                  this.state.username,
+                  this.state.fotoUrl
                 )
               }
             >
@@ -91,16 +110,16 @@ class EditProfile extends Component {
         </View>
 
         <TouchableOpacity style={styles.button} onPress={()=>this.props.navigation.navigate('Profile')}>
-                    <Text style={styles.textButton}>Volve atras</Text>
+                    <Text style={styles.textButton}>Back</Text>
                 </TouchableOpacity>
-      
+       
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-
+  
   mainContainer: {
     flex: 1,
     backgroundColor: "#ffffff",
@@ -137,7 +156,7 @@ const styles = StyleSheet.create({
   },
 
   loginText: {
-    color: "#46627f",
+    color: "red",
     fontWeight: "bold   ",
   },
 
@@ -145,7 +164,6 @@ const styles = StyleSheet.create({
     height: 80,
     width: "100%",
   },
-
 
   checkboxContainer: {
     padding: 15,
@@ -159,13 +177,14 @@ const styles = StyleSheet.create({
 
 
 
+
   input: {
     height: 37.6,
     width: 268.4,
     paddingVertical: 15,
     paddingHorizontal: 10,
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: "red",
     borderStyle: "solid",
     borderRadius: 6,
     marginVertical: 10,
@@ -174,7 +193,7 @@ const styles = StyleSheet.create({
   button: {
     height: 37.6,
     width: 268.4,
-    backgroundColor: "#46627f",
+    backgroundColor: "red",
     paddingHorizontal: 10,
     paddingVertical: 6,
     textAlign: "center",
@@ -185,12 +204,10 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   textButton: {
-    color: "#fff",
+    color: "white",
     textAlign: "center",
     fontSize: 15,
     fontWeight: "bold",
   },
 });
-
-
 export default EditProfile;
