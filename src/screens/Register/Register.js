@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { auth, db } from '../../firebase/config';
 import {TextInput, TouchableOpacity, View, Text, StyleSheet} from 'react-native';
+import Cam from "../../componentes/Cam";
 
 
 class Register extends Component {
@@ -10,8 +11,6 @@ class Register extends Component {
             email:'',
             userName:'',
             password:'',
-formr: false,
-            showCamera:false,
             bio:'',
             fotoPerfil: '',
             formError: false,
@@ -20,11 +19,10 @@ formr: false,
 
     register(email,pass,userName,bio,fotoPerfil){
         if(this.state.email == '' || this.state.email.includes("@") == false){
-            return this.setState({formError: "You must enter a valid email address"})
+            return this.setState({formError: "Por favor ingrese un email valido"})
         }else if (this.state.password == '' || this.state.password.length <6){
-            return this.setState({formError: "Your password must be at least 6 characters long"})
-        }else if (this.state.userName == '') {
-            return this.setState({formError:'You must complete the username'})
+            return this.setState({formError: "La contraseña debe tener 6 caracteres"})
+    
         }
         auth.createUserWithEmailAndPassword(email,pass)
         .then( response => {
@@ -45,11 +43,13 @@ formr: false,
             console.log(error);
           });
 
-}
+          
 
+}
 
     render(){
         return(
+           
             
               <View style={styles.formContainer}>
                 <Text style={styles.title}>Register</Text>
@@ -84,7 +84,7 @@ formr: false,
                         value={this.state.bio}
                         />
 
-                    {/* PROFILE PICTURE */}
+                
                     <TextInput
                         style={styles.input}
                         onChangeText={(url)=>this.setState({fotoPerfil: url})}
@@ -96,7 +96,8 @@ formr: false,
                     {this.state.email.length > 0 && this.state.password.length >0 && this.state.userName.length > 0 ? 
 
                     <TouchableOpacity style={styles.button} onPress={()=> 
-                    this.register(this.state.email, this.state.password, this.state.userName , this.state.bio , this.state.fotoPerfil)}>
+                    this.register(this.state.email, this.state.password, this.state.userName)}>
+                        
                         
                         <Text style={styles.textButton} > Registrate</Text>    
 
@@ -105,7 +106,8 @@ formr: false,
                     <TouchableOpacity style={styles.buttonError} onPress={()=> this.setState({formError: 'Debes completar los espacios requeridos'})}>
                         <Text style={styles.textButton} > </Text>    
                     </TouchableOpacity> }
-
+                
+                {this.state.formError.length > 0 ? <Text style={styles.formError}> {this.state.formError} </Text> : false }
                 
                 <TouchableOpacity style={styles.buttonLogin} onPress={() => this.props.navigation.navigate('Login')}>
                     

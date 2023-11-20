@@ -30,19 +30,19 @@ class Login extends Component {
         this.props.navigation.navigate("Menu");
       })
       .catch((error) => {
-        if (error.code == 'auth/internal-erro'){
+        if (error.code == 'auth/internal-error'){
           this.setState({
-            textError: "El mail o contraseña es incorrecto"
-            
+            textError: "Por favor ingrese correctamente la contraseña"
           })
         }
         else {
         this.setState({
-          textError: error.message
+          textError: "Por favor ingrese correctamente el email"
       })}
         console.log(error);
       });
-  }
+         
+    }
 
 
   
