@@ -8,8 +8,8 @@ class Buscador extends Component {
     super(props);
 
     this.state = {
-      search: "",
-      results: [],
+      buscador: "",
+      resultado: [],
       selectedUserId: "",
     };
   }
@@ -26,7 +26,7 @@ class Buscador extends Component {
       });
 
       this.setState({
-        results: info,
+        resultado: info,
       });
     });
   }
@@ -43,20 +43,20 @@ class Buscador extends Component {
   }
 
   render() {
-    const filteredResults = this.state.results.filter((user) =>
-      user.datos.userName.toLowerCase().includes(this.state.search.toLowerCase())
+    const filteredResults = this.state.resultado.filter((user) =>
+      user.datos.userName.toLowerCase().includes(this.state.buscador.toLowerCase())
     );
 
     console.log(filteredResults)
-    console.log(this.state.results);
+    console.log(this.state.resultado);
     return (
       <View >
         <TextInput
-          placeholder="Search by username ..."
+          placeholder="Busca el usuario"
           keyboardType="default"
-          value={this.state.search}
-          style={styles.input}
-          onChangeText={(text) => this.setState({ search: text })}
+          value={this.state.buscador}
+          style={styles.busc}
+          onChangeText={(text) => this.setState({ buscador: text })}
         />
 
         <FlatList
@@ -67,13 +67,7 @@ class Buscador extends Component {
             <TouchableOpacity 
             onPress={() => this.handleUserSelect(item.datos.owner)}
             style={styles.containerProfile}>
-              {item.datos.profilePic != '' ?
-                    <Image 
-                        style={styles.profilePic} 
-                        source={{uri:item.datos.profilePic}}
-                        resizeMode='contain'/> :
-                        <Image 
-                       /> }
+             
               <View>
               <Text >{item.datos.userName}</Text>
               <Text style={styles.email}>{item.datos.owner}</Text>
@@ -89,26 +83,19 @@ class Buscador extends Component {
 
 const styles = StyleSheet.create({
   container:{marginLeft:10,},
-  email:{color:'grey'},
+  email:{color:'black'},
   containerProfile:{
     flexDirection: 'row',
     height:50
   },
-  input: {
+  busc: {
     height: 40,
-    backgroundColor:'#eae0ed',
+    backgroundColor:'red',
     paddingLeft: 10,
     margin:10,
-    borderRadius:15,
+    
   },
-  profilePic:{
-    height:40,
-    width:40,
-    borderWidth:2,
-    borderRadius:25,
-    borderColor:'white',
-    marginRight:10
-},
+
 });
 
 export default Buscador;

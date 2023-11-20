@@ -77,13 +77,13 @@ class Profile extends Component {
   render(){
       return(
           <ScrollView>
-              <Text style={styles.screenTitle}>My Profile</Text>
+              <Text style={styles.titulo}>My Profile</Text>
              
               <FlatList 
                       data= {this.state.users}
                       keyExtractor={ user => user.id }
                       renderItem={ ({item}) => <View>
-                          <Text>Usuario: {item.data.userName}</Text>
+                          <Text>Usuario: {item.data.email} </Text>
                           <Text>Bio: {item.data.bio}</Text>
                           
                           <Image
@@ -188,6 +188,6 @@ const styles = StyleSheet.create({
 
   }
 
-})
+}) //
 
 export default Profile;
