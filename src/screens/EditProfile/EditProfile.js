@@ -44,14 +44,14 @@ class EditProfile extends Component {
         <View style={styles.right}>
           <View style={styles.firstBox}>
 
-            {/* FOTO DE PERFIL */}
+           
             <Text >Nueva foto de Perfil</Text>
             <MyCamera
               style={styles.camera}
               traerUrlDeFoto={(url) => this.traerUrlDeFoto(url)}
             />
 
-           {/* USERNAME */}
+           
            <Text >Nombre de usuario</Text>
             <TextInput
               style={styles.input}
