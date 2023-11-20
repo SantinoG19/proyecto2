@@ -44,7 +44,7 @@ class PostForm extends Component {
         <Text>PostForm</Text>
 
         {this.state.showCamera ? (
-          <Cam subirla={(url) => this.subirla(url)} />
+          <Cam  subirla={(url) => this.subirla(url)} />
         ) : (
           <>
             <TextInput

@@ -24,13 +24,11 @@ export default function App() {
         
       <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
       
+      <Stack.Screen name="Register" component={Register} options={{ headerShown: false }}/>
+      
      <Stack.Screen name="Menu" component={Menu} options={{ headerShown: false }}/>
 
-      
-      
-      <Stack.Screen name="Register" component={Register} options={{ headerShown: false }}/>
-      <Stack.Screen name="Home" component={Post} options={{ headerShown: false }}/>
-      <Stack.Screen name="Comentario" component={Comentario}options={{ headerShown: true }}/>
+      <Stack.Screen name="Comentario" component={Comentario}options={{ headerShown: false }}/>
       <Stack.Screen name='EditProfile' component={EditProfile} options={ { headerShown: false } }/>
       
       

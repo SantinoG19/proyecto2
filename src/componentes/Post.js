@@ -87,7 +87,11 @@ class Post extends Component {
         console.error('Error agregando comentario:', error);
       });
   }
-
+llevarme(){
+  navigation.navigate('Register', {
+    postId: this.props.infoPost.id,
+    owner: this.props.infoPost.datos.owner,})
+};
   render() {
     const { infoPost, navigation } = this.props;
 
@@ -122,17 +126,12 @@ class Post extends Component {
 
         {/* Navegación a la pantalla de comentarios */}
         <TouchableOpacity
-          onPress={() =>
-            navigation.navigate('Comentarios', {
-              postId: infoPost.id,
-              owner: infoPost.datos.owner,
-            })
-          }
+          onPress={() => this.llevarme()}
         >
-          <Text> comentarios</Text>
+          <Text> Cantidad:3</Text>
         </TouchableOpacity>
 
-        {/* Input para comentarios y botón de enviar */}
+        {/* {infoPost.datos.comentarios.length} deberia funcionar nose que pasa*/}
         <View>
           <TextInput
             onChangeText={(text) => this.setState({ comentario: text })}
