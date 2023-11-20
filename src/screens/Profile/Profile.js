@@ -10,7 +10,7 @@ class Profile extends Component {
       super()
       this.state={
           users: [],
-          listaPost: []
+          listaP: []
       }   
   }
   componentDidMount(){
@@ -43,7 +43,7 @@ class Profile extends Component {
               })
 
               this.setState({
-                  listaPost: TodosLosPost
+                listaP: TodosLosPost
               })
           }
       )
@@ -96,22 +96,22 @@ class Profile extends Component {
                       style={styles.datosP}
                   />
               
-              <TouchableOpacity style={styles.button} onPress={()=>this.logout()}>
+              <TouchableOpacity style={styles.boton} onPress={()=>this.logout()}>
                   <Text style={styles.textButton}>Log out</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.button} onPress={()=> this.props.navigation.navigate('EditProfile', { userData: this.state.users,navigation: this.props.navigation.navigate })}>
+              <TouchableOpacity style={styles.boton} onPress={()=> this.props.navigation.navigate('EditProfile', { userData: this.state.users,navigation: this.props.navigation.navigate })}>
                   <Text style={styles.textButton}>Edit</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.button} onPress={() => this.borrar()}>
-               <Text style={styles.textButton}>Delete account</Text>
+              <TouchableOpacity style={styles.boton} onPress={() => this.borrar()}>
+               <Text style={styles.textoBoton}>Delete account</Text>
               </TouchableOpacity>
                  
             
                   
-              <Text style={styles.screenTitle}>My Posts</Text>
+              <Text style={styles.titulo}>My Posts</Text>
               
               {
-                  this.state.listaPost.length === 0 
+                  this.state.listaP.length === 0 
                   ?
                   <Image
                      
@@ -119,10 +119,10 @@ class Profile extends Component {
                   :
                  
                   <FlatList 
-                      data= {this.state.listaPost}
+                      data= {this.state.listaP}
                       keyExtractor={ unPost => unPost.id }
                       renderItem={ ({item}) => <Post infoPost = { item } navigate={this.props.navigation.navigate}/> }
-                      style= {styles.listaPosts}
+                      style= {styles.listaP}
                   />
                   
               }
@@ -134,7 +134,7 @@ class Profile extends Component {
 
 const styles = StyleSheet.create({
 
-  screenTitle: {
+  titulo: {
       fontSize: 30,
       fontWeight: 'bold',
       marginLeft: 20,
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
       width: 300, 
       height: 150,
   },
-  button:{
+  boton:{
       alignSelf: 'flex-end',
       height:30,
       width: 150,
@@ -180,8 +180,8 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center'
   },
-  textButton:{
-      color: 'black',
+  textoBoton:{
+      color: 'white',
       textAlign: 'center',
       fontSize: 15,
       fontWeight: 'bold'

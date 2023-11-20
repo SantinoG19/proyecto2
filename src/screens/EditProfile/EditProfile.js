@@ -4,56 +4,37 @@ import {Image, TextInput, TouchableOpacity, View,Text,StyleSheet, FlatList, Scro
 import MyCamera from "../../componentes/Cam";
 
 class EditProfile extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      usuario: [],
+      nuevoUsuario: this.props.route.params.userData[0].data.userName,
+      usuario: this.props.route.params.userData[0],
+      nuevaBio: this.props.route.params.userData[0].data.bio,
+      foto: this.props.route.params.userData[0].data.fotoPerfil,
+      
     };
   }
-  componentDidMount() {
-    console.log("En editProfile");
+ 
+ 
 
-    db.collection("users")
-      .where("owner", "==", auth.currentUser.email)
-      .onSnapshot((docs) => {
-        let users = [];
-        docs.forEach((doc) => {
-          users.push({
-            id: doc.id,
-            data: doc.data(),
-          });
-          this.setState({
-            usuario: users,
-          });
-        });
-      });
-    console.log(this.state);
-  }
-
-  
-
-  editUser(email, pass, username, Bio, profilePic) {
-    auth
-      .createUserWithEmailAndPassword(email, pass)
-      .then((response) => {
-        console.log("Registrado ok", response);
-
-        
-        db.collection("users").doc(this.state.users.id).update({
-          owner: auth.currentUser.email,
-          username: this.state.username,
-          bio: this.state.bio,
-          profilePicture: this.state.profilePicture,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  edit(nuevoUsuario, nuevaBio, newPicture) {
+    
+    db.collection('users').doc(this.state.usuario.id).update({
+        bio: nuevaBio,
+        userName: nuevoUsuario,
+        fotoPerfil: newPicture
+    })
+        .then(res => {
+            this.setState({
+                
+            })
+        })
+        .catch(e => console.log(e))
   }
 
   traerUrlDeFoto(url) {
     this.setState({
-      fotoUrl: url,
+      foto: url,
     });
   }
 
@@ -63,44 +44,44 @@ class EditProfile extends Component {
         <View style={styles.right}>
           <View style={styles.firstBox}>
 
-           
+            {/* FOTO DE PERFIL */}
+            <Text >Nueva foto de Perfil</Text>
             <MyCamera
               style={styles.camera}
               traerUrlDeFoto={(url) => this.traerUrlDeFoto(url)}
             />
 
-       
+           {/* USERNAME */}
+           <Text >Nombre de usuario</Text>
             <TextInput
               style={styles.input}
               onChangeText={(text) => {
-                this.setState({ username: text });
+                this.setState({ nuevoUsuario: text });
               }}
               blurOnSubmit={true}
-              placeholder="username"
+              placeholder="Nuevo user"
               keyboardType="default"
-              value={this.state.username}
+              value={this.state.usuario.data.userName}
             />
+            <Text >Biografía</Text>
             <TextInput
               style={styles.input}
               onChangeText={(text) => {
-                this.setState({ bio: text });
+                this.setState({ nuevaBio: text });
               }}
-              minLength={6}
               blurOnSubmit={true}
-              placeholder="password"
+              placeholder="Biografia"
               keyboardType="default"
-              secureTextEntry={true}
-              value={this.state.password}
+              value={this.state.usuario.data.bio}
             />
-
+            <Text ></Text>
             <TouchableOpacity
               style={styles.button}
               onPress={() =>
-                this.isError(
-                  this.state.email,
-                  this.state.password,
-                  this.state.username,
-                  this.state.fotoUrl
+                this.edit(
+                  this.state.nuevoUsuario,
+                  this.state.nuevaBio,
+                  this.state.foto
                 )
               }
             >
@@ -110,20 +91,21 @@ class EditProfile extends Component {
         </View>
 
         <TouchableOpacity style={styles.button} onPress={()=>this.props.navigation.navigate('Profile')}>
-                    <Text style={styles.textButton}>Back</Text>
+                    <Text style={styles.textButton}>Volve atras</Text>
                 </TouchableOpacity>
-       
+      
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
- 
+
   mainContainer: {
     flex: 1,
     backgroundColor: "#ffffff",
   },
+
 
 
   right: {
@@ -164,6 +146,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
 
+
   checkboxContainer: {
     padding: 15,
     flexDirection: "row",
@@ -176,8 +159,6 @@ const styles = StyleSheet.create({
 
 
 
-
- 
   input: {
     height: 37.6,
     width: 268.4,
@@ -193,7 +174,7 @@ const styles = StyleSheet.create({
   button: {
     height: 37.6,
     width: 268.4,
-    backgroundColor: "red",
+    backgroundColor: "#46627f",
     paddingHorizontal: 10,
     paddingVertical: 6,
     textAlign: "center",
@@ -210,5 +191,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
+
 
 export default EditProfile;

@@ -96,7 +96,7 @@ formr: false,
                     {this.state.email.length > 0 && this.state.password.length >0 && this.state.userName.length > 0 ? 
 
                     <TouchableOpacity style={styles.button} onPress={()=> 
-                    this.register(this.state.email, this.state.password, this.state.userName , this.state.Bio , this.state.fotoPerfil)}>
+                    this.register(this.state.email, this.state.password, this.state.userName , this.state.bio , this.state.fotoPerfil)}>
                         
                         <Text style={styles.textButton} > Registrate</Text>    
 

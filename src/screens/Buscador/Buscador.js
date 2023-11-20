@@ -4,156 +4,111 @@ import { db, auth } from '../../firebase/config';
 
 
 class Buscador extends Component {
-    constructor(props){
-        super(props)
-        this.state={
-            todosUsers: [], //los datos de todos los usuarios traídos desde la colección user (componentDidMount)
-            usersFiltrados: [],
-            searchText: ''
-        }
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      search: "",
+      results: [],
+      selectedUserId: "",
+    };
+  }
+
+
+  componentDidMount() {
+      db.collection("user").onSnapshot((snapshot) => {
+      let info = [];
+      snapshot.forEach((doc) => {
+        info.push({
+          id: doc.id,
+          datos: doc.data(),
+        });
+      });
+
+      this.setState({
+        results: info,
+      });
+    });
+  }
+
+
+
+  handleUserSelect(selectedUserId) {
+    {selectedUserId != auth.currentUser.email ? 
+      this.props.navigation.navigate('Profile', selectedUserId )
+      :
+      this.props.navigation.navigate('MyProfile', selectedUserId )
     }
+    console.log(selectedUserId);
+  }
 
-    componentDidMount(){
-        //Traer datos
-        db.collection('users').onSnapshot(
-            usuarios => {
-                let usersDeDb = [];
+  render() {
+    const filteredResults = this.state.results.filter((user) =>
+      user.datos.userName.toLowerCase().includes(this.state.search.toLowerCase())
+    );
 
-                usuarios.forEach( unUser => {
-                    usersDeDb.push(
-                        {
-                            id: unUser.id,
-                            datos: unUser.data()
-                        }
-                    )
-                })
+    console.log(filteredResults)
+    console.log(this.state.results);
+    return (
+      <View >
+        <TextInput
+          placeholder="Search by username ..."
+          keyboardType="default"
+          value={this.state.search}
+          style={styles.input}
+          onChangeText={(text) => this.setState({ search: text })}
+        />
 
-                this.setState({
-                    todosUsers: usersDeDb
-                })
-            }
-        )
-    }
-
-  /*   searchUsers(searchText){
-      this.state.todosUsers.forEach( unUser => {
-        if (searchText.length==0){
-            this.setState({
-                usersFiltrados: []
-            })
-        }
-        // Para no duplicar usuarios en los resultados:
-        if (unUser.datos.owner.includes(searchText) ) {
-            if(this.state.usersFiltrados.includes(unUser))
-            {null}
-            else{this.state.usersFiltrados.push(unUser)}
-        }
-      })
-    } */
-
-    searchUsers(searchText){
-        console.log(searchText)    
-        let nuevaLista = []
-        for (let i = 0; i < this.state.todosUsers.length; i++) {
-            //ver si funciona con user
-            if (this.state.todosUsers[i].datos.owner.includes(searchText) || this.state.todosUsers[i].datos.userName.includes(searchText) ) {
-                {nuevaLista.push(this.state.todosUsers[i])}
+        <FlatList
+          data={filteredResults}
+          keyExtractor={(user) => user.id}
+          style={styles.container}
+          renderItem={({ item }) => (
+            <TouchableOpacity 
+            onPress={() => this.handleUserSelect(item.datos.owner)}
+            style={styles.containerProfile}>
+              {item.datos.profilePic != '' ?
+                    <Image 
+                        style={styles.profilePic} 
+                        source={{uri:item.datos.profilePic}}
+                        resizeMode='contain'/> :
+                        <Image 
+                       /> }
+              <View>
+              <Text >{item.datos.userName}</Text>
+              <Text style={styles.email}>{item.datos.owner}</Text>
               
-            }
-            if (searchText.length==0){
-                nuevaLista = []
-            }
-        }
-        this.setState({
-            usersFiltrados: nuevaLista
-        })
-      }
-
-
-
-    render(){
-
-      
-        return(
-            <ScrollView>
-                
-                <Text style={styles.screenTitle}>Search Results</Text>
-                <View style={styles.searchContainer}>
-                <TextInput
-                    style={styles.input}
-                    onChangeText={(text)=> (this.searchUsers(text), this.setState({searchText: text.toLowerCase()}))}
-                    placeholder='Search via email or username '
-                    keyboardType='default'
-                    value={this.state.searchText}>
-                </TextInput>
-                </View>
-
-                {
-                    this.state.usersFiltrados.length === 0 
-                    ?
-                    <Text style={styles.noResults}>NO RESULTS</Text>
-                    :
-                   
-                    <FlatList 
-                        data= {this.state.usersFiltrados}
-                        keyExtractor={ unUser => unUser.id }
-                        renderItem={ ({item}) => <TouchableOpacity onPress={() => this.props.navigation.navigate('OtherProfile', { userData: item.datos.owner, navigation: this.props.navigation })}>
-                        <Text style={styles.unPostContainer}>{item.datos.owner}</Text>
-                    </TouchableOpacity> }
-                        style= {styles.listaPosts}
-                    />
-                    
-                }
-            </ScrollView>
-        )
-    }
+              </View>
+            </TouchableOpacity>
+          )}
+        />
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-    //CONTENEDOR GENERAL
-    screenTitle:{
-        fontSize: 30,
-        fontWeight: 'bold',
-        marginLeft: 20,
-        marginVertical: 10
-    },
-    searchContainer:{
-        flex: 1,
-        backgroundColor: '#ffffff',
-        borderRadius: 6,
-        marginHorizontal: 20,
-        flexDirection: 'row',
-        justifyContent: "space-around",
-        paddingVertical: 15,
-        alignItems: 'center',
-        marginBottom: 25,
-    },
-    input:{
-        height:40,
-        width: '90%',
-        borderWidth:1,
-        borderColor: '#ccc',
-        borderStyle: 'solid',
-        borderRadius: 6,
-        
-    },
-    unPostContainer: {
-        flex: 1,
-        backgroundColor: '#ffffff',
-        borderRadius: 6,
-        marginHorizontal: 20,
-        padding: 5,
-        marginVertical: 5,
-        fontWeight: 'bold'
-    },
-    noResults: {
-        fontWeight: 'bold',
-        fontSize: 80,
-        color: '#46627f',
-        alignSelf: 'center',
-        textAlign: 'center'
-    },
-
-})
+  container:{marginLeft:10,},
+  email:{color:'grey'},
+  containerProfile:{
+    flexDirection: 'row',
+    height:50
+  },
+  input: {
+    height: 40,
+    backgroundColor:'#eae0ed',
+    paddingLeft: 10,
+    margin:10,
+    borderRadius:15,
+  },
+  profilePic:{
+    height:40,
+    width:40,
+    borderWidth:2,
+    borderRadius:25,
+    borderColor:'white',
+    marginRight:10
+},
+});
 
 export default Buscador;
