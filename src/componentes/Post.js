@@ -21,7 +21,7 @@ class Post extends Component {
   }
 
   componentDidMount() {
-    // Verificar si el usuario actual ya ha dado like al post
+    
     const likes = this.props.infoPost.datos.likes;
 
     if (likes.includes(auth.currentUser.email)) {
@@ -32,7 +32,7 @@ class Post extends Component {
   }
 
   likear() {
-    // Dar like al post y actualizar la base de datos
+    
     db.collection('posts')
       .doc(this.props.infoPost.id)
       .update({
@@ -47,7 +47,7 @@ class Post extends Component {
   }
 
   dislike() {
-    // Quitar like al post y actualizar la base de datos
+    
     db.collection('posts')
       .doc(this.props.infoPost.id)
       .update({
@@ -62,7 +62,7 @@ class Post extends Component {
   }
 
   eliminar() {
-    // Eliminar el post de la base de datos
+    
     db.collection('posts')
       .doc(this.props.infoPost.id)
       .delete()
@@ -72,7 +72,7 @@ class Post extends Component {
   }
 
   comentar() {
-    // Agregar un comentario al post
+  
     const { comentario } = this.state;
 
     db.collection('posts')
@@ -117,14 +117,14 @@ llevarme(){
           </TouchableOpacity>
         )}
 
-        {/* Botón eliminar (solo visible para el propietario del post) */}
+        
         {auth.currentUser.email === infoPost.datos.owner && (
           <TouchableOpacity style={styles.button} onPress={() => this.eliminar()}>
             <Text style={styles.textButton}>Eliminar</Text>
           </TouchableOpacity>
         )}
 
-        {/* Navegación a la pantalla de comentarios */}
+        
         <TouchableOpacity
           onPress={() => this.llevarme()}
         >
@@ -133,14 +133,14 @@ llevarme(){
 
         {/* {infoPost.datos.comentarios.length} deberia funcionar nose que pasa*/}
         <View>
-          <TextInput
+          <TextInput style={styles.texto}
             onChangeText={(text) => this.setState({ comentario: text })}
             placeholder="Comentario..."
             keyboardType="default"
             value={this.state.comentario}
           />
           <TouchableOpacity onPress={() => this.comentar()}>
-            <Text>Enviar comentario</Text>
+            <Text style={styles.texto} >Enviar comentario</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -185,8 +185,11 @@ const styles = StyleSheet.create({
     width: '30%',
   },
   texto:{
-    color: 'black',
-    fontSize: 15,
+    color: '#46627f',
+      fontSize: 15,
+      fontWeight: 'bold'
+   
+    
     
 
   },

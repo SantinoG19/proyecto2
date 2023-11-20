@@ -70,10 +70,10 @@ class Login extends Component {
                   
                   <TouchableOpacity style={styles.button}
                     onPress={() => this.login(this.state.email, this.state.password)}>
-                    <Text style={styles.textButton}>Login</Text>
+                    <Text style={styles.textButton}>Ingresar</Text>
                   </TouchableOpacity> :
                   <TouchableOpacity style={styles.errorButton} onPress={()=> this.setState({textError: 'Debes completar los campos vacios'})}>
-                  <Text style={styles.textButton} > Login</Text>    
+                  <Text style={styles.textButton} > Ingresar</Text>    
                   </TouchableOpacity> }  
                   {this.state.textError.length > 0 ? <Text style={styles.textError}> {this.state.textError} </Text> : false }
                   <TouchableOpacity style={styles.buttonRegister} onPress={() => this.props.navigation.navigate('Register')}>

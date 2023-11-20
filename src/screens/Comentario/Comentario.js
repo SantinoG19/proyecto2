@@ -47,8 +47,8 @@ class Comentario extends Component {
               data={this.state.data.comments}
               keyExtractor={item => item.createdAt.toString()}
               renderItem={({item}) => <View>
-                <Text style={styles.textox}>{item.owner} comentó:</Text>
-                <Text style={styles.textox}>{item.comment}</Text>
+                <Text style={styles.textdos}>{item.owner} comentó:</Text>
+                <Text style={styles.textdos}>{item.comment}</Text>
               </View>
                 }
               />
@@ -81,17 +81,17 @@ class Comentario extends Component {
   
       texto:{
         backgroundColor: 'rgb(255,255,242)',
-        fontFamily: 'monospace',
-        fontSize: 13,
         margin: 14,
         borderRadius: 12,
         textAlign: 'center',
         color: 'rgb(128, 128, 128)',
-        padding: 8
+        padding: 8,
+        fontFamily: 'monospace',
+        fontSize: 13,
   
     }, 
   
-    textox:{
+    textdos:{
       backgroundColor: 'rgb(255,255,242)',
       fontFamily: 'monospace',
       fontSize: 13,
@@ -114,17 +114,7 @@ class Comentario extends Component {
     
     },
   
-    botonx:{
-      fontFamily: 'monospace',
-      fontSize: 16,
-      margin: 10,
-      backgroundColor: 'rgb(173, 216, 230)',
-      borderRadius: 20,
-      textAlign: 'center',
-      justifyContent: 'flex-end' ,
-      padding: 5
-    
-    },
+
     })
   
   export default Comentario

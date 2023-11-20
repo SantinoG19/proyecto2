@@ -135,10 +135,11 @@ class Profile extends Component {
 const styles = StyleSheet.create({
 
   titulo: {
-      fontSize: 30,
-      fontWeight: 'bold',
-      marginLeft: 20,
-      marginVertical: 10
+    fontSize: 30,
+    fontWeight: 'bold',
+    marginLeft: 20,
+    marginVertical: 10,
+    color:'#4169E1'
   },
   imagen: {
       height: 200
